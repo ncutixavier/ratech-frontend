@@ -4,11 +4,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Auth from "../layouts/Auth";
+import Login from "../pages/Login";
+import RecoverPassword from "../pages/RecoverPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#ffffff",
+      main: "#1d2121",
       text: "#000000",
       contrast: "#ccc",
     },
@@ -28,7 +31,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: `"Work Sans", "Helvetica", "Arial", sans-serif`,
+    fontFamily: `"Nunito", "Helvetica", "Arial", sans-serif`,
     fontSize: 14,
     fontWeightLight: 300,
     fontWeightRegular: 400,
@@ -43,6 +46,11 @@ const Index = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/auth" element={<Auth />}>
+            <Route path="" element={<Login />} />
+            <Route path="recover-password" element={<RecoverPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
         </Routes>
       </Router>
     </ThemeProvider>

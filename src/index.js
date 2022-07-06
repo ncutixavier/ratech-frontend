@@ -1,15 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./index.css";
 import Index from "./routes/Index";
 import { Provider } from "react-redux";
 import store from "./store";
 import reportWebVitals from "./reportWebVitals";
+import ReactDOM from "react-dom/client";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <Provider store={store}>
     <Index />
-  </Provider>,
-  document.getElementById("root")
+  </Provider>
 );
 reportWebVitals();
