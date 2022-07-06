@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { recoverPasswordSchema } from "../validations";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"
 
 const RecoverPassword = () => {
   const theme = useTheme();
@@ -63,6 +63,23 @@ const RecoverPassword = () => {
           )}
         </Button>
       </FieldGroup>
+      <Box
+        sx={{
+          margin: "1.5rem 0",
+          fontSize: "1rem",
+          textAlign: "center",
+        }}
+      >
+        <Link
+          to="/auth"
+          style={{
+            color: theme.palette.primary.main,
+            textDecoration: "none",
+          }}
+        >
+          Back to login
+        </Link>
+        </Box>
     </Box>
   );
 };
