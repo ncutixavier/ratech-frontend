@@ -88,7 +88,7 @@ const ProductCard = (props) => {
             color: theme.palette.text.secondary,
           }}
         >
-          {props.product.PNL} -{" "}
+          {props.product.id} -{" "}
           <a
             style={{
               textDecoration: "underline",
