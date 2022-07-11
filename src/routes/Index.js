@@ -4,16 +4,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Auth from "../layouts/Auth";
+import RetailDashboard from "../layouts/RetailDashboard";
 import Login from "../pages/Login";
 import RecoverPassword from "../pages/RecoverPassword";
 import ResetPassword from "../pages/ResetPassword";
+import Retail from "../pages/Retail";
+import CheckList from "../pages/CheckList";
 
 const theme = createTheme({
   palette: {
+    success: { main: "#3652B4" },
     primary: {
       main: "#1d2121",
       text: "#000000",
-      contrast: "#ccc",
+      contrast: "#3652B4",
     },
     secondary: {
       main: "#f5f5f5",
@@ -28,6 +32,7 @@ const theme = createTheme({
     text: {
       primary: "#000000",
       secondary: "#888888",
+      light: "#ffffff",
     },
   },
   typography: {
@@ -46,10 +51,15 @@ const Index = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/retail" element={<Retail />} />
           <Route path="/auth" element={<Auth />}>
             <Route path="" element={<Login />} />
             <Route path="recover-password" element={<RecoverPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
+          <Route path="/retail" element={<RetailDashboard />}>
+            <Route path="" element={<Retail />} />
+            <Route path="checklist" element={<CheckList />} />
           </Route>
         </Routes>
       </Router>
