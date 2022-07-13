@@ -40,6 +40,7 @@ const ProductCard = (props) => {
           p: 2,
           borderRadius: "10px",
           position: "relative",
+          width: "100%"
         }}
       >
         {props.product.status === "Available" ? (

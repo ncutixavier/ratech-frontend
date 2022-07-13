@@ -4,7 +4,8 @@ import { styled } from "@mui/material/styles";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: "8px",
-  width: "130px",
+  width: "120px",
+  fontSize: "0.8rem",
   [theme.breakpoints.down("md")]: {
       width: "100px",
       fontSize: "0.6rem",

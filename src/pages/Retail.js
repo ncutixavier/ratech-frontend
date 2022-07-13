@@ -45,7 +45,13 @@ const RetailDashboard = () => {
             <Title variant="h4">Rateck Live Stock</Title>
             <CustomTextField />
           </Box>
-          <Grid container spacing={2} sx={{ mb: "20px" }}>
+          <Grid
+            container
+            flexDirection="row"
+            justifyContent="center"
+            spacing={2}
+            sx={{ mb: "20px" }}
+          >
             <Grid item xs={4} md={2}>
               <SelectSmall
                 label="Sort"
@@ -58,7 +64,7 @@ const RetailDashboard = () => {
             <Grid item xs={4} md={2}>
               <CustomField
                 sx={{
-                  width: "130px",
+                  width: "120px",
                   [theme.breakpoints.down("md")]: {
                     width: "105px",
                     fontSize: "0.7rem",
@@ -74,13 +80,13 @@ const RetailDashboard = () => {
                 /* styles the label component */
                 InputLabelProps={{
                   style: {
-                    height: "38px",
+                    height: "35px",
                   },
                 }}
                 /* styles the input component */
                 inputProps={{
                   style: {
-                    height: "38px",
+                    height: "35px",
                     padding: "0 14px",
                   },
                 }}

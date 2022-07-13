@@ -7,7 +7,7 @@ import { styled } from "@mui/material/styles";
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
   borderRadius: "8px",
-  width: "130px",
+  width: "120px",
   [theme.breakpoints.down("md")]: {
     width: "105px",
     fontSize: "0.7rem",
@@ -16,7 +16,7 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
 
 const StyledSelect = styled(Select)(({ theme }) => ({
   borderRadius: "8px",
-  height: "38px",
+  height: "35px",
   "& .MuiOutlinedInput": {
     "&-notchedOutline": {
       borderColor: theme.palette.success.main,
