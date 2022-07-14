@@ -7,10 +7,16 @@ import { loginSchema } from "../validations";
 import { useTheme } from "@emotion/react";
 import { InputAdornment, IconButton, Button } from "@mui/material";
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { showErrorMessage } from "../utils/toast";
+import { useDispatch } from "react-redux";
+import { login } from "../features/auth/LoginSlice";
 
 const Login = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const {
@@ -26,9 +32,22 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = (data) => {
-    setIsSubmitted(true);
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setIsSubmitted(true);
+      const res = await dispatch(login(data)).unwrap();
+      if (res.status === 200) {
+        setIsSubmitted(false);
+        if (res.data.user.role === "employee") {
+          navigate("/employee");
+        } else if(res.data.user.role === "admin") {
+          navigate("/admin");
+        }
+      }
+    } catch (err) {
+      showErrorMessage(err.data.message);
+      setIsSubmitted(false);
+    }
   };
 
   return (
