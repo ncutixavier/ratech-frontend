@@ -81,7 +81,7 @@ const ProductCard = (props) => {
             color: theme.palette.success.main,
           }}
         >
-          AED {props.product.price} + VAT
+          {props.currency} {props.product.price} + VAT
         </Typography>
         <Typography
           sx={{

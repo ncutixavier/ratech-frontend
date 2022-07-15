@@ -2,91 +2,91 @@
   {
     "title": "Brand New Microsoft Surface Pro 3",
     "description": "10th generation of Surface Pro, with a new display and a brilliant new keyboard. Intel Core i7 and NVIDIA GeForce GTX 1080 graphics.",
-    "price": "699.00",
+    "price": 699.00,
     "id": "PLT-00001",
     "status": "Out of Stock"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 899.00,
     "id": "PLT-00002",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 799.00,
     "id": "PLT-00003",
     "status": "Out of Stock"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 490.00,
     "id": "PLT-00004",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 799.00,
     "id": "PLT-00005",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 989.00,
     "id": "PLT-00006",
     "status": "Out of Stock"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 790.00,
     "id": "PLT-00007",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 500.00,
     "id": "PLT-00008",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 709.00,
     "id": "PLT-00009",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 900.00,
     "id": "PLT-00010",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 799.34,
     "id": "PLT-00011",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Pro",
     "description": "13-inch MacBook Pro with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "999.00",
+    "price": 919.00,
     "id": "PLT-00012",
     "status": "Available"
   },
   {
     "title": "Apple MacBook Air",
     "description": "13-inch MacBook Air with Retina display, Touch Bar, Touch ID, and Touch ID fingerprint sensor. Intel Core i7 and 16GB RAM.",
-    "price": "799.00",
+    "price": 799.76,
     "id": "PLT-00013",
     "status": "Available"
   }

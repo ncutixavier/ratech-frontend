@@ -38,11 +38,12 @@ const Login = () => {
       const res = await dispatch(login(data)).unwrap();
       if (res.status === 200) {
         setIsSubmitted(false);
-        if (res.data.user.role === "employee") {
-          navigate("/employee");
-        } else if(res.data.user.role === "admin") {
-          navigate("/admin");
-        }
+        navigate("/retail");
+        // if (res.data.user.role === "employee") {
+        //   navigate("/employee");
+        // } else if(res.data.user.role === "admin") {
+        //   navigate("/admin");
+        // }
       }
     } catch (err) {
       showErrorMessage(err.data.message);

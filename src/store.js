@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
+import loginReducer from "./features/auth/LoginSlice";
 
 const reducer = {
+  login: loginReducer,
 };
 
 const middleware = [];

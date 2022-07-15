@@ -7,13 +7,16 @@ import CustomButton from "../components/CustomButton";
 import { Title } from "../layouts/RetailDashboard";
 import { useNavigate } from "react-router-dom";
 import SelectSmall from "../components/SelectSmall";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 
 const RetailDashboard = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState([]);
+  const [currency, setCurrency] = React.useState("USD");
+  const [currencyRate, setCurrencyRate] = React.useState(1);
+  const [allProducts, setAllProducts] = React.useState([...products]);
 
   const handleSelectProducts = (selected, product) => {
     setChecked(selected.target.checked);
@@ -26,7 +29,6 @@ const RetailDashboard = () => {
       currentSelectedItems.splice(index, 1);
       setSelectedItems(currentSelectedItems);
     }
-    console.log(selected.target.checked, selectedItems);
   };
 
   const handleRequest = (request) => {
@@ -37,79 +39,102 @@ const RetailDashboard = () => {
     }
   };
 
+  const handleChangeSort = (e) => { 
+    if (/lowest/.test(e.target.value.toLowerCase())) {
+      setAllProducts([...products].sort((a, b) => a.price - b.price));
+    } else if (/highest/.test(e.target.value.toLowerCase())) { 
+      setAllProducts([...products].sort((a, b) => b.price - a.price));
+    }
+  }
+
+  React.useEffect(() => {
+    fetch("https://cdn.moneyconvert.net/api/latest.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const rate = data.rates[currency];
+        setCurrencyRate(rate);
+      });
+  }, [currency]);
+
   return (
     <Box>
       <Grid container justifyContent="center">
         <Grid item xs={11} md={7}>
-          <Box sx={{ mb: 3, mt: 2 }}>
+          <Box sx={{ mb: 1, mt: 2 }}>
             <Title variant="h4">Rateck Live Stock</Title>
             <CustomTextField />
           </Box>
-          <Grid
-            container
-            flexDirection="row"
-            justifyContent="center"
-            spacing={2}
-            sx={{ mb: "20px" }}
-          >
-            <Grid item xs={4} md={2}>
-              <SelectSmall
-                label="Sort"
-                items={["High to Low Price", "High to Low Price"]}
-              />
-            </Grid>
-            <Grid item xs={4} md={2}>
-              <SelectSmall label="Currency" items={["USD", "AED"]} />
-            </Grid>
-            <Grid item xs={4} md={2}>
-              <CustomField
-                sx={{
-                  width: "120px",
-                  [theme.breakpoints.down("md")]: {
-                    width: "105px",
-                    fontSize: "0.7rem",
-                  },
-                }}
-                label="Margin"
-                size="small"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">%</InputAdornment>
-                  ),
-                }}
-                /* styles the label component */
-                InputLabelProps={{
-                  style: {
-                    height: "35px",
-                  },
-                }}
-                /* styles the input component */
-                inputProps={{
-                  style: {
-                    height: "35px",
-                    padding: "0 14px",
-                  },
-                }}
-                fullWidth
-                placeholder="Margin"
-                variant="outlined"
-                color="success"
-              />
-            </Grid>
-
-            {["Quote", "Check", "Place Order"].map((item, index) => (
-              <Grid item xs={4} md={2} key={index}>
-                <CustomButton
-                  title={item}
-                  onClick={() => handleRequest(item)}
+          <Box>
+            <Grid
+              container
+              flexDirection="row"
+              justifyContent="space-between"
+              sx={{ mb: "20px" }}
+            >
+              <Box sx={{ mt: 1 }}>
+                <SelectSmall
+                  label="Sort"
+                  items={["Lowest Price", "Highest Price"]}
+                  onChange={handleChangeSort}
                 />
-              </Grid>
-            ))}
-          </Grid>
+              </Box>
+              <Box sx={{ mt: 1 }}>
+                <SelectSmall
+                  label="Currency"
+                  items={["USD", "AED"]}
+                  onChange={(event) => setCurrency(event.target.value)}
+                />
+              </Box>
+              <Box sx={{ mt: 1 }}>
+                <CustomField
+                  sx={{
+                    width: "120px",
+                  }}
+                  label="Margin"
+                  size="small"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">%</InputAdornment>
+                    ),
+                  }}
+                  /* styles the label component */
+                  InputLabelProps={{
+                    style: {
+                      height: "35px",
+                    },
+                  }}
+                  /* styles the input component */
+                  inputProps={{
+                    style: {
+                      height: "35px",
+                      padding: "0 14px",
+                    },
+                  }}
+                  fullWidth
+                  placeholder="Margin"
+                  variant="outlined"
+                  color="success"
+                />
+              </Box>
+
+              {["Quote", "Check", "Place Order"].map((item, index) => (
+                <Box sx={{ mt: 1 }} key={index}>
+                  <CustomButton
+                    title={item}
+                    onClick={() => handleRequest(item)}
+                  />
+                </Box>
+              ))}
+            </Grid>
+          </Box>
           <Box sx={{ height: "60vh", overflow: "auto" }}>
-            {products.map((product, index) => (
+            {allProducts.map((product, index) => (
               <ProductCard
-                product={product}
+                currency={currency}
+                product={{
+                  ...product,
+                  price: Math.round(product.price * currencyRate),
+                }}
                 checked={checked}
                 onChange={(selected) => handleSelectProducts(selected, product)}
                 key={index}

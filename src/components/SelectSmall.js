@@ -9,7 +9,6 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
   borderRadius: "8px",
   width: "120px",
   [theme.breakpoints.down("md")]: {
-    width: "105px",
     fontSize: "0.7rem",
   },
 }));
@@ -26,19 +25,15 @@ const StyledSelect = styled(Select)(({ theme }) => ({
 
 export default function SelectSmall(props) {
   return (
-    <StyledFormControl size="small" success>
-      <InputLabel id="demo-select-small">{props.label || ""}</InputLabel>
+    <StyledFormControl size="small" success="true">
+      <InputLabel>{props.label || ""}</InputLabel>
       <StyledSelect
-        labelId="demo-select-small"
-        id="demo-select-small"
         value={props.value}
         label={props.label || ""}
         onChange={props.onChange}
+        defaultValue=""
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        {(props.items || []).map((item, index) => (
+        {props.items.map((item, index) => (
           <MenuItem value={item} key={index}>
             {item}
           </MenuItem>

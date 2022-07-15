@@ -6,9 +6,10 @@ const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: "8px",
   width: "120px",
   fontSize: "0.8rem",
+  border: "1px solid " + theme.palette.success.main,
   [theme.breakpoints.down("md")]: {
-      width: "100px",
-      fontSize: "0.6rem",
+    fontSize: "0.7rem",
+    height: "34px",
   },
 }));
 
