@@ -43,17 +43,21 @@ const ProductCard = (props) => {
           width: "100%",
         }}
       >
-        {props.product.status === "Available" ? (
-          <StatusText>{props.product.status}</StatusText>
+        {props.product.status ? (
+          props.product.status === "Available" ? (
+            <StatusText>{props.product.status}</StatusText>
+          ) : (
+            <StatusText
+              sx={{
+                color: "#AB0000",
+                backgroundColor: `rgba(171, 0, 0, 0.09)`,
+              }}
+            >
+              {props.product.status}
+            </StatusText>
+          )
         ) : (
-          <StatusText
-            sx={{
-              color: "#AB0000",
-              backgroundColor: `rgba(171, 0, 0, 0.09)`,
-            }}
-          >
-            {props.product.status}
-          </StatusText>
+          ""
         )}
 
         <Typography
@@ -63,7 +67,8 @@ const ProductCard = (props) => {
             marginTop: "8px",
           }}
         >
-          {props.product.title}
+          {props.product.condition} {props.product.title} -{" "}
+          <span style={{ fontWeight: 300 }}>{props.product.location}</span>
         </Typography>
         <Typography
           sx={{
@@ -82,7 +87,7 @@ const ProductCard = (props) => {
           }}
         >
           {props.currency}{" "}
-          {props.loading ? "..." : `${props.product.price} VAT`}
+          {props.loading ? "..." : `${props.product.price} + VAT`}
         </Typography>
         <Typography
           sx={{

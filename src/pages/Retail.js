@@ -137,6 +137,9 @@ const RetailDashboard = () => {
                 product={{
                   ...product,
                   price: Math.round(product.price * currencyRate),
+                  condition: "Brand New",
+                  location: "Dubai",
+                  status: "",
                 }}
                 checked={checked}
                 onChange={(selected) => handleSelectProducts(selected, product)}

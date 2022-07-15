@@ -8,6 +8,15 @@ const RetailDashboard = () => {
   let products = localStorage.getItem("products");
   products = JSON.parse(products);
 
+  if (products === null || products.length === 0) {
+    products = [];
+    return (
+      <h3 style={{ textAlign: "center", margin: "15px 0" }}>
+        No checklist requested!
+      </h3>
+    );
+  }
+
   return (
     <Box>
       <Grid container justifyContent="center">
@@ -26,7 +35,13 @@ const RetailDashboard = () => {
           </Box>
           <Box sx={{ height: "70vh", overflow: "auto" }}>
             {products.map((product) => (
-              <ProductCard product={product} />
+              <ProductCard
+                product={{
+                  ...product,
+                  condition: "Brand New",
+                  location: "Dubai",
+                }}
+              />
             ))}
           </Box>
         </Grid>
