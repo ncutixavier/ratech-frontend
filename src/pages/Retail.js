@@ -17,6 +17,7 @@ const RetailDashboard = () => {
   const [currency, setCurrency] = React.useState("USD");
   const [currencyRate, setCurrencyRate] = React.useState(1);
   const [allProducts, setAllProducts] = React.useState([...products]);
+  const [loadingRate, setLoadingRate] = React.useState(false);
 
   const handleSelectProducts = (selected, product) => {
     setChecked(selected.target.checked);
@@ -32,7 +33,6 @@ const RetailDashboard = () => {
   };
 
   const handleRequest = (request) => {
-    console.log(request);
     if (request.toLowerCase() === "check" && selectedItems.length > 0) {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
@@ -48,11 +48,13 @@ const RetailDashboard = () => {
   }
 
   React.useEffect(() => {
+    setLoadingRate(true);
     fetch("https://cdn.moneyconvert.net/api/latest.json")
       .then((response) => response.json())
       .then((data) => {
         const rate = data.rates[currency];
         setCurrencyRate(rate);
+        setLoadingRate(false);
       });
   }, [currency]);
 
@@ -130,6 +132,7 @@ const RetailDashboard = () => {
           <Box sx={{ height: "60vh", overflow: "auto" }}>
             {allProducts.map((product, index) => (
               <ProductCard
+                loading={loadingRate}
                 currency={currency}
                 product={{
                   ...product,

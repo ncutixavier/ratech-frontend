@@ -40,7 +40,7 @@ const ProductCard = (props) => {
           p: 2,
           borderRadius: "10px",
           position: "relative",
-          width: "100%"
+          width: "100%",
         }}
       >
         {props.product.status === "Available" ? (
@@ -81,7 +81,8 @@ const ProductCard = (props) => {
             color: theme.palette.success.main,
           }}
         >
-          {props.currency} {props.product.price} + VAT
+          {props.currency}{" "}
+          {props.loading ? "..." : `${props.product.price} VAT`}
         </Typography>
         <Typography
           sx={{
