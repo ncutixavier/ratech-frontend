@@ -40,7 +40,12 @@ const RetailHeader = () => {
               <Avatar
                 alt="Logo"
                 src={logoDark}
-                sx={{ width: 180, height: 70 }}
+                sx={{
+                  width: 180, height: 70,
+                  [theme.breakpoints.down("md")]: {
+                    width: 130,
+                   }
+                }}
               />
             </Link>
           </Box>
