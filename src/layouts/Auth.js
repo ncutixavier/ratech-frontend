@@ -44,6 +44,9 @@ export default function Auth() {
     if (location.pathname === "/") {
       navigate("/auth");
     }
+    if(localStorage.getItem("token")){
+      navigate("/retail");
+    }
   }, [location.pathname, navigate]);
   return (
     <Grid
