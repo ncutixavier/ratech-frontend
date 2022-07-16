@@ -7,6 +7,7 @@ import CustomButton from "../components/CustomButton";
 import { Title } from "../layouts/RetailDashboard";
 import { useNavigate } from "react-router-dom";
 import SelectSmall from "../components/SelectSmall";
+import * as htmlToImage from "html-to-image";
 // import { useTheme } from "@emotion/react";
 
 const RetailDashboard = () => {
@@ -36,6 +37,19 @@ const RetailDashboard = () => {
     if (request.toLowerCase() === "check" && selectedItems.length > 0) {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
+    } else if (request.toLowerCase() === "quote") {
+      var node = document.body;
+
+      htmlToImage
+        .toPng(node)
+        .then(function (dataUrl) {
+          var img = new Image();
+          img.src = dataUrl;
+          document.body.appendChild(img);
+        })
+        .catch(function (error) {
+          console.error("oops, something wents wrong!", error);
+        });
     }
   };
 
