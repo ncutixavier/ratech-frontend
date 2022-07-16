@@ -8,14 +8,15 @@ import { useTheme } from "@emotion/react";
 import { InputAdornment, IconButton, Button } from "@mui/material";
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { showErrorMessage } from "../utils/toast";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/LoginSlice";
+import { useToasts } from "react-toast-notifications";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { addToast } = useToasts();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
@@ -36,9 +37,15 @@ const Login = () => {
     try {
       setIsSubmitted(true);
       const res = await dispatch(login(data)).unwrap();
+      console.log(res)
       if (res.status === 200) {
         setIsSubmitted(false);
-        navigate("/retail");
+        if (window.location.search) {
+          navigate(window.location.search.split("=")[1]);
+        } else { 
+          navigate("/retail");
+        }
+        
         // if (res.data.user.role === "employee") {
         //   navigate("/employee");
         // } else if(res.data.user.role === "admin") {
@@ -46,7 +53,10 @@ const Login = () => {
         // }
       }
     } catch (err) {
-      showErrorMessage(err.data.message);
+      addToast(err.data.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
       setIsSubmitted(false);
     }
   };

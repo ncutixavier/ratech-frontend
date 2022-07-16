@@ -3,8 +3,20 @@ import React from "react";
 import ProductCard from "../components/ProductCard";
 import CustomButton from "../components/CustomButton";
 import { Title } from "../layouts/RetailDashboard";
+import { decodeToken } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const RetailDashboard = () => {
+  const navigate = useNavigate();
+  const user = decodeToken();
+
+  React.useEffect(() => {
+    if (!user) {
+      localStorage.clear();
+      navigate(`/auth?redirect=${window.location.pathname}`);
+    }
+  }, [navigate, user]);
+
   let products = localStorage.getItem("products");
   products = JSON.parse(products);
 

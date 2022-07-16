@@ -1,8 +1,6 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 import Auth from "../layouts/Auth";
 import RetailDashboard from "../layouts/RetailDashboard";
 import Login from "../pages/Login";
@@ -10,6 +8,8 @@ import RecoverPassword from "../pages/RecoverPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Retail from "../pages/Retail";
 import CheckList from "../pages/CheckList";
+import { ToastProvider } from "react-toast-notifications";
+import ProtectRoute from "./ProtectRoute";
 
 const theme = createTheme({
   palette: {
@@ -47,22 +47,26 @@ const theme = createTheme({
 const Index = () => {
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/retail" element={<Retail />} />
-          <Route path="/auth" element={<Auth />}>
-            <Route path="" element={<Login />} />
-            <Route path="recover-password" element={<RecoverPassword />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-          </Route>
-          <Route path="/retail" element={<RetailDashboard />}>
-            <Route path="" element={<Retail />} />
-            <Route path="checklist" element={<CheckList />} />
-          </Route>
-        </Routes>
-      </Router>
+      {/* <ToastContainer /> */}
+      <ToastProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Auth />} />
+            <Route path="/retail" element={<Retail />} />
+            <Route path="/auth" element={<Auth />}>
+              <Route path="" element={<Login />} />
+              <Route path="recover-password" element={<RecoverPassword />} />
+              <Route path="reset-password" element={<ResetPassword />} />
+            </Route>
+            <Route element={<ProtectRoute />}>
+              <Route path="/retail" element={<RetailDashboard />}>
+                <Route path="" element={<Retail />} />
+                <Route path="checklist" element={<CheckList />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </ToastProvider>
     </ThemeProvider>
   );
 };

@@ -32,18 +32,15 @@ const CustomTextField = () => {
             />
           </InputAdornment>
         ),
+        style: {
+          height,
+          padding: "0 14px",
+        },
       }}
       /* styles the label component */
       InputLabelProps={{
         style: {
           height,
-        },
-      }}
-      /* styles the input component */
-      inputProps={{
-        style: {
-          height,
-          padding: "0 14px",
         },
       }}
       fullWidth

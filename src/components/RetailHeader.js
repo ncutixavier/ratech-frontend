@@ -21,6 +21,11 @@ const RetailHeader = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => { 
+    localStorage.removeItem("token");
+    navigate("/auth");
+  }
+
   return (
     <Box>
       <AppBar
@@ -90,7 +95,7 @@ const RetailHeader = () => {
           >
             <MenuItem onClick={()=>navigate("checklist")}>Checklist</MenuItem>
             <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

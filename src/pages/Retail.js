@@ -7,10 +7,10 @@ import CustomButton from "../components/CustomButton";
 import { Title } from "../layouts/RetailDashboard";
 import { useNavigate } from "react-router-dom";
 import SelectSmall from "../components/SelectSmall";
-// import { useTheme } from "@emotion/react";
+import QuoteModal from "../components/QuoteModal";
+import { decodeToken } from "../utils/auth";
 
 const RetailDashboard = () => {
-  // const theme = useTheme();
   const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -18,6 +18,15 @@ const RetailDashboard = () => {
   const [currencyRate, setCurrencyRate] = React.useState(1);
   const [allProducts, setAllProducts] = React.useState([...products]);
   const [loadingRate, setLoadingRate] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const user = decodeToken();
+
+  React.useEffect(() => {
+    if (!user) {
+      localStorage.clear();
+      navigate(`/auth?redirect=${window.location.pathname}`);
+    }
+  }, [navigate, user]);
 
   const handleSelectProducts = (selected, product) => {
     setChecked(selected.target.checked);
@@ -36,16 +45,41 @@ const RetailDashboard = () => {
     if (request.toLowerCase() === "check" && selectedItems.length > 0) {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
+    } else if (request.toLowerCase() === "quote") {
+      setOpen(true);
     }
   };
 
-  const handleChangeSort = (e) => { 
+  const handleChangeSort = (e) => {
     if (/lowest/.test(e.target.value.toLowerCase())) {
       setAllProducts([...products].sort((a, b) => a.price - b.price));
-    } else if (/highest/.test(e.target.value.toLowerCase())) { 
+    } else if (/highest/.test(e.target.value.toLowerCase())) {
       setAllProducts([...products].sort((a, b) => b.price - a.price));
     }
-  }
+  };
+
+  const handleChangeMargin = (e) => {
+    const margin = parseInt(e.target.value || 0);
+    console.log(margin);
+    if (margin > 0) {
+      setAllProducts(
+        [...products].map((product) => {
+          return {
+            ...product,
+            price: product.price + (product.price * parseInt(margin)) / 100,
+          };
+        })
+      );
+    } else {
+      setAllProducts(
+        [...products].map((product) => {
+          return {
+            ...product,
+          };
+        })
+      );
+    }
+  };
 
   React.useEffect(() => {
     setLoadingRate(true);
@@ -60,6 +94,7 @@ const RetailDashboard = () => {
 
   return (
     <Box>
+      <QuoteModal open={open} close={() => setOpen(false)} />
       <Grid container justifyContent="center">
         <Grid item xs={11} md={7}>
           <Box sx={{ mb: 1, mt: 2 }}>
@@ -89,6 +124,8 @@ const RetailDashboard = () => {
               </Box>
               <Box sx={{ mt: 1 }}>
                 <CustomField
+                  type="number"
+                  onChange={handleChangeMargin}
                   sx={{
                     width: "120px",
                   }}
@@ -98,6 +135,10 @@ const RetailDashboard = () => {
                     endAdornment: (
                       <InputAdornment position="start">%</InputAdornment>
                     ),
+                    style: {
+                      height: "35px",
+                      padding: "0 14px",
+                    },
                   }}
                   /* styles the label component */
                   InputLabelProps={{
@@ -105,15 +146,7 @@ const RetailDashboard = () => {
                       height: "35px",
                     },
                   }}
-                  /* styles the input component */
-                  inputProps={{
-                    style: {
-                      height: "35px",
-                      padding: "0 14px",
-                    },
-                  }}
                   fullWidth
-                  placeholder="Margin"
                   variant="outlined"
                   color="success"
                 />

@@ -101,7 +101,7 @@ const ProductCard = (props) => {
               textDecoration: "underline",
               color: theme.palette.text.secondary,
             }}
-            href="http://https://rateckstores.com/"
+            href="https://rateckstores.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
