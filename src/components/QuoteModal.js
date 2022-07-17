@@ -28,22 +28,22 @@ export default function QuoteModal(props) {
     {
       name: "WhatsApp",
       icon: WhatsAppIcon,
-      link: "https://wa.me/5511998888888",
+      link: `https://api.whatsapp.com/send?text=${props.text}`,
     },
     {
       name: "Facebook",
       icon: FacebookIcon,
-      link: "https://www.facebook.com/",
+      link: `https://www.facebook.com/sharer/sharer.php?u=${props.text}`,
     },
     {
       name: "Twitter",
       icon: TwitterIcon,
-      link: "https://twitter.com/",
+      link: `https://twitter.com/intent/tweet?url=${props.text}`,
     },
     {
       name: "LinkedIn",
       icon: LinkedInIcon,
-      link: "https://www.linkedin.com/",
+      link: `https://www.linkedin.com/sharing/share-offsite/?url=${props.text}`,
     },
   ];
 
