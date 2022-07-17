@@ -29,6 +29,7 @@ const RetailDashboard = () => {
   const [allProducts, setAllProducts] = React.useState([...products]);
   const [loadingRate, setLoadingRate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [quote, setQuote] = React.useState("");
   const user = decodeToken();
   const dispatch = useDispatch();
   const { loading } = useSelector(selectSearchProduct);
@@ -58,6 +59,12 @@ const RetailDashboard = () => {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
+      let sharedQuote = "";
+      selectedItems.forEach((product) => { 
+        const text = `${product.condition} ${product.name} - ${product.specifications} - ${currency} ${product.price} `;
+        sharedQuote += text + "                                                                                ";
+      });
+      setQuote(sharedQuote);
       setOpen(true);
     }
   };
@@ -128,7 +135,7 @@ const RetailDashboard = () => {
 
   return (
     <Box>
-      <QuoteModal open={open} close={() => setOpen(false)} />
+      <QuoteModal open={open} close={() => setOpen(false)} text={quote} />
       <Grid container justifyContent="center">
         <Grid item xs={11} md={7}>
           <Box sx={{ mb: 1, mt: 2 }}>
