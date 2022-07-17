@@ -61,8 +61,8 @@ const RetailDashboard = () => {
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
       let sharedQuote = "";
       selectedItems.forEach((product) => { 
-        const text = `${product.condition} ${product.name} - ${currency} ${product.price} `;
-        sharedQuote += text + "\n\n";
+        const text = `${product.condition} ${product.name} - ${product.specifications} - ${currency} ${product.price} `;
+        sharedQuote += text + "                                                                                ";
       });
       setQuote(sharedQuote);
       setOpen(true);
