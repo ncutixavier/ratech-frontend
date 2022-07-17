@@ -16,3 +16,7 @@ export const resetPasswordSchema = Yup.object().shape({
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
 });
+
+export const searchSchema = Yup.object().shape({
+  search: Yup.string().required(""),
+})
