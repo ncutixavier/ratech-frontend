@@ -147,6 +147,11 @@ const RetailDashboard = () => {
                 onKeyPress={handleSearchProduct}
                 size="small"
                 InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon color="primary" />
+                    </InputAdornment>
+                  ),
                   style: {
                     height: "40px",
                     padding: "0 12px",
@@ -163,15 +168,9 @@ const RetailDashboard = () => {
                 variant="outlined"
                 color="success"
               />
-              {/* <CustomTextField
-                control={control}
-                {...register("search")}
-                onKeyPress={handleSearchProduct}
-              /> */}
               <Button
                 variant="contained"
                 disableElevation
-                startIcon={<SearchIcon />}
                 sx={{ ml: 1, borderRadius: "8px" }}
                 onClick={handleSubmit(onSearch)}
               >
