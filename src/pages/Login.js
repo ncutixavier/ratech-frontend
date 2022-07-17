@@ -10,16 +10,17 @@ import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/LoginSlice";
-// import { useToasts } from "react-toast-notifications";
+import SnackbarNotify from "../components/Snackbar";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { addToast } = useToasts();
 
+  const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [error, setError] = React.useState("");
   const {
     register,
     control,
@@ -37,15 +38,15 @@ const Login = () => {
     try {
       setIsSubmitted(true);
       const res = await dispatch(login(data)).unwrap();
-      console.log(res)
+      console.log(res);
       if (res.status === 200) {
         setIsSubmitted(false);
         if (window.location.search) {
           navigate(window.location.search.split("=")[1]);
-        } else { 
+        } else {
           navigate("/retail");
         }
-        
+
         // if (res.data.user.role === "employee") {
         //   navigate("/employee");
         // } else if(res.data.user.role === "admin") {
@@ -53,17 +54,20 @@ const Login = () => {
         // }
       }
     } catch (err) {
-      console.log(err.data.message);
-      // addToast(err.data.message, {
-      //   appearance: "error",
-      //   autoDismiss: true,
-      // });
+      setError(err.data.message);
+      setOpen(true);
       setIsSubmitted(false);
     }
   };
 
   return (
     <Box>
+      <SnackbarNotify
+        open={open}
+        close={() => setOpen(false)}
+        color={"error"}
+        message={error}
+      />
       <FormTitle>Sign in to continue</FormTitle>
       <FieldGroup>
         <TextLabel>Email</TextLabel>
@@ -103,7 +107,6 @@ const Login = () => {
           helperText={errors.password ? errors.password.message : null}
         />
       </FieldGroup>
-
       <FieldGroup>
         <Button
           sx={{
