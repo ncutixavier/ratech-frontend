@@ -16,11 +16,12 @@ export const CustomField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const CustomTextField = () => {
+const CustomTextField = (props) => {
   const theme = useTheme();
   const height = 38;
   return (
     <CustomField
+      onChange={props.onChange}
       size="small"
       InputProps={{
         endAdornment: (

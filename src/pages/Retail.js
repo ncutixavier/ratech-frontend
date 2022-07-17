@@ -9,6 +9,11 @@ import { useNavigate } from "react-router-dom";
 import SelectSmall from "../components/SelectSmall";
 import QuoteModal from "../components/QuoteModal";
 import { decodeToken } from "../utils/auth";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectSearchProduct,
+  searchProduct,
+} from "../features/products/SearchProductSlice";
 
 const RetailDashboard = () => {
   const navigate = useNavigate();
@@ -20,6 +25,8 @@ const RetailDashboard = () => {
   const [loadingRate, setLoadingRate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const user = decodeToken();
+  const dispatch = useDispatch();
+  const { products, loading } = useSelector(selectSearchProduct);
 
   React.useEffect(() => {
     if (!user) {
@@ -92,6 +99,11 @@ const RetailDashboard = () => {
       });
   }, [currency]);
 
+  const handleSearchProduct = (e) => {
+    // dispatch(searchProduct(e.target.value));
+    console.log(e.target.value);
+  };
+
   return (
     <Box>
       <QuoteModal open={open} close={() => setOpen(false)} />
@@ -99,7 +111,7 @@ const RetailDashboard = () => {
         <Grid item xs={11} md={7}>
           <Box sx={{ mb: 1, mt: 2 }}>
             <Title variant="h4">Rateck Live Stock</Title>
-            <CustomTextField />
+            <CustomTextField onChange={handleSearchProduct} />
           </Box>
           <Box>
             <Grid
