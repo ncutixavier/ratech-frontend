@@ -10,13 +10,13 @@ import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/LoginSlice";
-import { useToasts } from "react-toast-notifications";
+// import { useToasts } from "react-toast-notifications";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
@@ -53,10 +53,11 @@ const Login = () => {
         // }
       }
     } catch (err) {
-      addToast(err.data.message, {
-        appearance: "error",
-        autoDismiss: true,
-      });
+      console.log(err.data.message);
+      // addToast(err.data.message, {
+      //   appearance: "error",
+      //   autoDismiss: true,
+      // });
       setIsSubmitted(false);
     }
   };

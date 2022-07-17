@@ -8,7 +8,6 @@ import RecoverPassword from "../pages/RecoverPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Retail from "../pages/Retail";
 import CheckList from "../pages/CheckList";
-import { ToastProvider } from "react-toast-notifications";
 import ProtectRoute from "./ProtectRoute";
 
 const theme = createTheme({
@@ -47,8 +46,6 @@ const theme = createTheme({
 const Index = () => {
   return (
     <ThemeProvider theme={theme}>
-      {/* <ToastContainer /> */}
-      <ToastProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Auth />} />
@@ -66,7 +63,6 @@ const Index = () => {
             </Route>
           </Routes>
         </Router>
-      </ToastProvider>
     </ThemeProvider>
   );
 };
