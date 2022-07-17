@@ -21,24 +21,24 @@ export const searchProductSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    products: [],
+    results: [],
   },
   reducers: {},
   extraReducers: {
     [searchProduct.pending]: (state, action) => {
       state.loading = true;
       state.error = null;
-      state.products = [];
+      state.results = [];
     },
     [searchProduct.fulfilled]: (state, action) => {
       state.loading = false;
       state.error = null;
-      state.products = action.payload;
+      state.results = action.payload;
     },
     [searchProduct.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.products = [];
+      state.results = [];
     },
   },
 });

@@ -38,7 +38,6 @@ const Login = () => {
     try {
       setIsSubmitted(true);
       const res = await dispatch(login(data)).unwrap();
-      console.log(res);
       if (res.status === 200) {
         setIsSubmitted(false);
         if (window.location.search) {

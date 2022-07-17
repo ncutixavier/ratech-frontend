@@ -22,6 +22,7 @@ const CustomTextField = (props) => {
   return (
     <CustomField
       onChange={props.onChange}
+      onKeyPress={props.onKeyPress}
       size="small"
       InputProps={{
         endAdornment: (

@@ -1,6 +1,5 @@
 import { Grid, Box, InputAdornment } from "@mui/material";
 import React from "react";
-import products from "../assets/data.json";
 import ProductCard from "../components/ProductCard";
 import CustomTextField, { CustomField } from "../components/CustomTextField";
 import CustomButton from "../components/CustomButton";
@@ -14,9 +13,11 @@ import {
   selectSearchProduct,
   searchProduct,
 } from "../features/products/SearchProductSlice";
+import SearchSkeleton from "../skeletons/SearchSkeleton";
 
 const RetailDashboard = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = React.useState([]);
   const [checked, setChecked] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState([]);
   const [currency, setCurrency] = React.useState("USD");
@@ -26,7 +27,7 @@ const RetailDashboard = () => {
   const [open, setOpen] = React.useState(false);
   const user = decodeToken();
   const dispatch = useDispatch();
-  const { products, loading } = useSelector(selectSearchProduct);
+  const { loading } = useSelector(selectSearchProduct);
 
   React.useEffect(() => {
     if (!user) {
@@ -52,9 +53,9 @@ const RetailDashboard = () => {
     if (request.toLowerCase() === "check" && selectedItems.length > 0) {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
-    } else if (request.toLowerCase() === "quote") {
-      setOpen(true);
-    }
+    } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
+             setOpen(true);
+           }
   };
 
   const handleChangeSort = (e) => {
@@ -67,13 +68,14 @@ const RetailDashboard = () => {
 
   const handleChangeMargin = (e) => {
     const margin = parseInt(e.target.value || 0);
-    console.log(margin);
     if (margin > 0) {
       setAllProducts(
         [...products].map((product) => {
           return {
             ...product,
-            price: product.price + (product.price * parseInt(margin)) / 100,
+            price:
+              parseFloat(product.price) +
+              (parseFloat(product.price) * margin) / 100,
           };
         })
       );
@@ -100,8 +102,12 @@ const RetailDashboard = () => {
   }, [currency]);
 
   const handleSearchProduct = (e) => {
-    // dispatch(searchProduct(e.target.value));
-    console.log(e.target.value);
+    if (e.charCode === 13) {
+      dispatch(searchProduct(e.target.value)).then((response) => {
+        setAllProducts(response.payload?.data?.data);
+        setProducts(response.payload?.data?.data);
+      });
+    }
   };
 
   return (
@@ -111,7 +117,7 @@ const RetailDashboard = () => {
         <Grid item xs={11} md={7}>
           <Box sx={{ mb: 1, mt: 2 }}>
             <Title variant="h4">Rateck Live Stock</Title>
-            <CustomTextField onChange={handleSearchProduct} />
+            <CustomTextField onKeyPress={handleSearchProduct} />
           </Box>
           <Box>
             <Grid
@@ -174,24 +180,30 @@ const RetailDashboard = () => {
               ))}
             </Grid>
           </Box>
-          <Box sx={{ height: "60vh", overflow: "auto" }}>
-            {allProducts.map((product, index) => (
-              <ProductCard
-                loading={loadingRate}
-                currency={currency}
-                product={{
-                  ...product,
-                  price: Math.round(product.price * currencyRate),
-                  condition: "Brand New",
-                  location: "Dubai",
-                  status: "",
-                }}
-                checked={checked}
-                onChange={(selected) => handleSelectProducts(selected, product)}
-                key={index}
-              />
-            ))}
-          </Box>
+          {loading ? (
+            <SearchSkeleton />
+          ) : (
+            <Box sx={{ height: "60vh", overflow: "auto" }}>
+              {allProducts.map((product, index) => (
+                <ProductCard
+                  loading={loadingRate}
+                  currency={currency}
+                  product={{
+                    ...product,
+                    price: Math.round(product.price * currencyRate),
+                    condition: "Brand New",
+                    location: "Dubai",
+                    status: "",
+                  }}
+                  checked={checked}
+                  onChange={(selected) =>
+                    handleSelectProducts(selected, product)
+                  }
+                  key={index}
+                />
+              ))}
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Box>

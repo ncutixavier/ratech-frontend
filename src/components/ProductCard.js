@@ -67,8 +67,8 @@ const ProductCard = (props) => {
             marginTop: "8px",
           }}
         >
-          {props.product.condition} {props.product.title} -{" "}
-          <span style={{ fontWeight: 300 }}>{props.product.location}</span>
+          {props.product.condition} {props.product.name} -{" "}
+          <span style={{ fontWeight: 300 }}>{props.product.city}</span>
         </Typography>
         <Typography
           sx={{
@@ -77,7 +77,7 @@ const ProductCard = (props) => {
             color: theme.palette.text.secondary,
           }}
         >
-          {props.product.description}
+          {props.product.specifications}
         </Typography>
         <Typography
           sx={{
@@ -95,13 +95,13 @@ const ProductCard = (props) => {
             color: theme.palette.text.secondary,
           }}
         >
-          {props.product.id} -{" "}
+          {props.product.tag_code} -{" "}
           <a
             style={{
               textDecoration: "underline",
               color: theme.palette.text.secondary,
             }}
-            href="https://rateckstores.com/"
+            href={props.product.link}
             target="_blank"
             rel="noopener noreferrer"
           >
