@@ -1,7 +1,7 @@
 import React from "react";
-import { TextField, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { useTheme } from "@emotion/react";
+import { TextField } from "@mui/material";
+// import SearchIcon from "@mui/icons-material/Search";
+// import { useTheme } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 
 export const CustomField = styled(TextField)(({ theme }) => ({
@@ -17,26 +17,27 @@ export const CustomField = styled(TextField)(({ theme }) => ({
 }));
 
 const CustomTextField = (props) => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const height = 38;
   return (
     <CustomField
+      {...props}
       onChange={props.onChange}
       onKeyPress={props.onKeyPress}
       size="small"
       InputProps={{
-        endAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon
-              sx={{
-                color: theme.palette.text.secondary,
-              }}
-            />
-          </InputAdornment>
-        ),
+        // endAdornment: (
+        //   <InputAdornment position="start">
+        //     <SearchIcon
+        //       sx={{
+        //         color: theme.palette.text.secondary,
+        //       }}
+        //     />
+        //   </InputAdornment>
+        // ),
         style: {
           height,
-          padding: "0 14px",
+          padding: "0 12px",
         },
       }}
       /* styles the label component */

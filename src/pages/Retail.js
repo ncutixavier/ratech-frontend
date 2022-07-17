@@ -1,7 +1,7 @@
-import { Grid, Box, InputAdornment } from "@mui/material";
+import { Grid, Box, InputAdornment, Button } from "@mui/material";
 import React from "react";
 import ProductCard from "../components/ProductCard";
-import CustomTextField, { CustomField } from "../components/CustomTextField";
+import { CustomField } from "../components/CustomTextField";
 import CustomButton from "../components/CustomButton";
 import { Title } from "../layouts/RetailDashboard";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,10 @@ import {
   searchProduct,
 } from "../features/products/SearchProductSlice";
 import SearchSkeleton from "../skeletons/SearchSkeleton";
+import SearchIcon from "@mui/icons-material/Search";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { searchSchema } from "../validations";
 
 const RetailDashboard = () => {
   const navigate = useNavigate();
@@ -54,8 +58,8 @@ const RetailDashboard = () => {
       localStorage.setItem("products", JSON.stringify(selectedItems));
       navigate("checklist");
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
-             setOpen(true);
-           }
+      setOpen(true);
+    }
   };
 
   const handleChangeSort = (e) => {
@@ -101,14 +105,26 @@ const RetailDashboard = () => {
       });
   }, [currency]);
 
+  const onSearchProduct = (item) => {
+    dispatch(searchProduct(item)).then((response) => {
+      setAllProducts(response.payload?.data?.data);
+      setProducts(response.payload?.data?.data);
+    });
+  };
+
   const handleSearchProduct = (e) => {
     if (e.charCode === 13) {
-      dispatch(searchProduct(e.target.value)).then((response) => {
-        setAllProducts(response.payload?.data?.data);
-        setProducts(response.payload?.data?.data);
-      });
+      onSearchProduct(e.target.value);
     }
   };
+
+  const onSearch = (data) => {
+    onSearchProduct(data.search);
+  };
+
+  const { register, handleSubmit, control } = useForm({
+    resolver: yupResolver(searchSchema),
+  });
 
   return (
     <Box>
@@ -117,7 +133,44 @@ const RetailDashboard = () => {
         <Grid item xs={11} md={7}>
           <Box sx={{ mb: 1, mt: 2 }}>
             <Title variant="h4">Rateck Live Stock</Title>
-            <CustomTextField onKeyPress={handleSearchProduct} />
+            <Box sx={{ display: "flex" }}>
+              <CustomField
+                control={control}
+                {...register("search")}
+                onKeyPress={handleSearchProduct}
+                size="small"
+                InputProps={{
+                  style: {
+                    height: "40px",
+                    padding: "0 12px",
+                  },
+                }}
+                /* styles the label component */
+                InputLabelProps={{
+                  style: {
+                    height: "40px",
+                  },
+                }}
+                fullWidth
+                placeholder="Search any product"
+                variant="outlined"
+                color="success"
+              />
+              {/* <CustomTextField
+                control={control}
+                {...register("search")}
+                onKeyPress={handleSearchProduct}
+              /> */}
+              <Button
+                variant="contained"
+                disableElevation
+                startIcon={<SearchIcon />}
+                sx={{ ml: 1, borderRadius: "8px" }}
+                onClick={handleSubmit(onSearch)}
+              >
+                Search
+              </Button>
+            </Box>
           </Box>
           <Box>
             <Grid
