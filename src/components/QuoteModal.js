@@ -24,6 +24,7 @@ const style = {
 };
 
 export default function QuoteModal(props) {
+  let url = "https://rateckstores.com/";
   const socialMedia = [
     {
       name: "WhatsApp",
@@ -33,7 +34,7 @@ export default function QuoteModal(props) {
     {
       name: "Facebook",
       icon: FacebookIcon,
-      link: `https://www.facebook.com/sharer/sharer.php?u=${props.text}`,
+      link: `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${props.text}`,
     },
     {
       name: "Twitter",
@@ -43,7 +44,7 @@ export default function QuoteModal(props) {
     {
       name: "LinkedIn",
       icon: LinkedInIcon,
-      link: `https://www.linkedin.com/sharing/share-offsite/?url=${props.text}`,
+      link: `https://www.linkedin.com/shareArticle?mini=true&url=${url}&summary=${props.text}`,
     },
   ];
 
