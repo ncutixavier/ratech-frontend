@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import SelectSmall from "../components/SelectSmall";
 import QuoteModal from "../components/QuoteModal";
 import { decodeToken } from "../utils/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import {
   selectSearchProduct,
   searchProduct,
@@ -32,6 +32,7 @@ const RetailDashboard = () => {
   const [quote, setQuote] = React.useState("");
   const user = decodeToken();
   const dispatch = useDispatch();
+  const store = useStore();
   const { loading } = useSelector(selectSearchProduct);
 
   React.useEffect(() => {
@@ -39,7 +40,11 @@ const RetailDashboard = () => {
       localStorage.clear();
       navigate(`/auth?redirect=${window.location.pathname}`);
     }
-  }, [navigate, user]);
+    let searchResults = store.getState().searchProduct.results;
+    setAllProducts(
+      Array.isArray(searchResults) ? [] : searchResults?.data?.data
+    );
+  }, [navigate, store, user]);
 
   const handleSelectProducts = (selected, product) => {
     setChecked(selected.target.checked);
@@ -60,9 +65,11 @@ const RetailDashboard = () => {
       navigate("checklist");
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
       let sharedQuote = "";
-      selectedItems.forEach((product) => { 
+      selectedItems.forEach((product) => {
         const text = `${product.condition} ${product.name} - ${product.specifications} - ${currency} ${product.price} `;
-        sharedQuote += text + "                                                                                ";
+        sharedQuote +=
+          text +
+          "                                                                                ";
       });
       setQuote(sharedQuote);
       setOpen(true);
