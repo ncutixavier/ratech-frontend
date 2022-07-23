@@ -44,6 +44,7 @@ const RetailDashboard = () => {
     setAllProducts(
       Array.isArray(searchResults) ? [] : searchResults?.data?.data
     );
+    setProducts(Array.isArray(searchResults) ? [] : searchResults?.data?.data);
   }, [navigate, store, user]);
 
   const handleSelectProducts = (selected, product) => {
@@ -59,9 +60,19 @@ const RetailDashboard = () => {
     }
   };
 
-  const handleRequest = (request) => {
+  const handleRequest = async (request) => {
     if (request.toLowerCase() === "check" && selectedItems.length > 0) {
+      const user = localStorage.getItem("user");
+      const data = {
+        user: user,
+        products: selectedItems.map((item) => item.uuid),
+        type: "check",
+        status: "processing",
+      };
       localStorage.setItem("products", JSON.stringify(selectedItems));
+      console.log("data::", data);
+      // const res = await dispatch(checklist(data)).unwrap();
+      // console.log("res::", res);
       navigate("checklist");
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
       let sharedQuote = "";
