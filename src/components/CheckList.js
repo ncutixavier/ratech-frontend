@@ -21,6 +21,7 @@ import {
 } from "../features/products/getChecklistSlice";
 import ChecklistSkeleton from "../skeletons/ChecklistSkeleton";
 import { order } from "../features/products/OrderSlice";
+import { toast } from "react-toastify";
 
 const ChecklistDashboard = () => {
   const navigate = useNavigate();
@@ -73,15 +74,21 @@ const ChecklistDashboard = () => {
         product: myOrder.map((item) => item.uuid),
         type: "order",
         status: "Processing",
-      };
-      try {
-        const res = await dispatch(order(data)).unwrap();
-        if (res.status === 201) {
-          navigate("checklist?type=order");
-        }
-      } catch (error) {
-       console.log("error::", error);
-      }
+    };
+    toast.promise(dispatch(order(data)).unwrap(), {
+      pending: "Sending place order...",
+      success: {
+        render({ data }) {
+          window.location.href = `/retail/checklist?type=order`;
+          return `Order sent successfully`;
+        },
+      },
+      error: {
+        render({ data }) {
+          return `${data.data.message}`;
+        },
+      },
+    });
   };
 
   const allResults = results?.data?.data;
@@ -126,7 +133,7 @@ const ChecklistDashboard = () => {
             </Paper>
           </Box>
 
-          <Box sx={{ height: "70vh", overflow: "auto" }}>
+          <Box sx={{ height: "60vh", overflow: "auto" }}>
             {loading || allResults === undefined ? (
               <ChecklistSkeleton />
             ) : (

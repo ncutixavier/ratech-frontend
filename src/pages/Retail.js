@@ -20,8 +20,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { searchSchema } from "../validations";
 import { checklist } from "../features/products/ChecklistSlice";
 import { order } from "../features/products/OrderSlice";
-import LoadingSnackbar from "../components/LoadingSnackbar";
-
+import { toast } from "react-toastify";
+ 
 const RetailDashboard = () => {
   const navigate = useNavigate();
   const [products, setProducts] = React.useState([]);
@@ -33,8 +33,6 @@ const RetailDashboard = () => {
   const [loadingRate, setLoadingRate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [quote, setQuote] = React.useState("");
-  const [checkLoading, setCheckLoading] = React.useState(false);
-  const [alertText, setAlertText] = React.useState("");
   const user = decodeToken();
   const dispatch = useDispatch();
   const store = useStore();
@@ -74,13 +72,16 @@ const RetailDashboard = () => {
         type: "check",
         status: "processing",
       };
-      setCheckLoading(true);
-      setAlertText("Send request to check products");
-      const res = await dispatch(checklist(data)).unwrap();
-      if (res.status === 201) {
-        navigate("checklist");
-        setCheckLoading(false);
-      }
+      // sendChecklist(data);
+      toast.promise(dispatch(checklist(data)).unwrap(), {
+        pending: "Sending Checklist...",
+        success: {
+          render({ data }) {
+            navigate("checklist");
+            return `Checklist sent successfully`;
+          },
+        },
+      });
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
       let sharedQuote = "";
       selectedItems.forEach((product) => {
@@ -99,17 +100,20 @@ const RetailDashboard = () => {
         type: "order",
         status: "Processing",
       };
-      setCheckLoading(true);
-      setAlertText("Send request to place order for products");
-      try {
-        const res = await dispatch(order(data)).unwrap();
-        if (res.status === 201) {
-          navigate("checklist");
-          setCheckLoading(false);
-        }
-      } catch (error) {
-       console.log("error::", error); 
-      }
+      toast.promise(dispatch(order(data)).unwrap(), {
+        pending: "Sending place order...",
+        success: {
+          render({ data }) {
+            navigate("checklist?type=order");
+            return `Order sent successfully`;
+          },
+        },
+        error: {
+          render({ data }) {
+            return `${data.data.message}`;
+          },
+        },
+      });
     }
   };
 
@@ -179,11 +183,6 @@ const RetailDashboard = () => {
 
   return (
     <Box>
-      <LoadingSnackbar
-        open={checkLoading}
-        close={() => setCheckLoading(false)}
-        text={alertText}
-      />
       <QuoteModal open={open} close={() => setOpen(false)} text={quote} />
       <Grid container justifyContent="center">
         <Grid item xs={11} md={7}>

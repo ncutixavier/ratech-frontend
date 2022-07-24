@@ -89,7 +89,7 @@ const ChecklistDashboard = () => {
             </Paper>
           </Box>
 
-          <Box sx={{ height: "70vh", overflow: "auto" }}>
+          <Box sx={{ height: "60vh", overflow: "auto" }}>
             {loading || allResults === undefined ? (
               <ChecklistSkeleton />
             ) : (
