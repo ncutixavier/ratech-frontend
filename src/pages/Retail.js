@@ -18,6 +18,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { searchSchema } from "../validations";
+import { checklist } from "../features/products/ChecklistSlice";
+import { order } from "../features/products/OrderSlice";
+import LoadingSnackbar from "../components/LoadingSnackbar";
 
 const RetailDashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +33,8 @@ const RetailDashboard = () => {
   const [loadingRate, setLoadingRate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [quote, setQuote] = React.useState("");
+  const [checkLoading, setCheckLoading] = React.useState(false);
+  const [alertText, setAlertText] = React.useState("");
   const user = decodeToken();
   const dispatch = useDispatch();
   const store = useStore();
@@ -65,15 +70,17 @@ const RetailDashboard = () => {
       const user = localStorage.getItem("user");
       const data = {
         user: user,
-        products: selectedItems.map((item) => item.uuid),
+        product: selectedItems.map((item) => item.uuid),
         type: "check",
         status: "processing",
       };
-      localStorage.setItem("products", JSON.stringify(selectedItems));
-      console.log("data::", data);
-      // const res = await dispatch(checklist(data)).unwrap();
-      // console.log("res::", res);
-      navigate("checklist");
+      setCheckLoading(true);
+      setAlertText("Send request to check products");
+      const res = await dispatch(checklist(data)).unwrap();
+      if (res.status === 201) {
+        navigate("checklist");
+        setCheckLoading(false);
+      }
     } else if (request.toLowerCase() === "quote" && selectedItems.length > 0) {
       let sharedQuote = "";
       selectedItems.forEach((product) => {
@@ -84,6 +91,25 @@ const RetailDashboard = () => {
       });
       setQuote(sharedQuote);
       setOpen(true);
+    } else if (request.toLowerCase() === "place order" && selectedItems.length > 0) {
+      const user = localStorage.getItem("user");
+      const data = {
+        user: user,
+        product: selectedItems.map((item) => item.uuid),
+        type: "order",
+        status: "Processing",
+      };
+      setCheckLoading(true);
+      setAlertText("Send request to place order for products");
+      try {
+        const res = await dispatch(order(data)).unwrap();
+        if (res.status === 201) {
+          navigate("checklist");
+          setCheckLoading(false);
+        }
+      } catch (error) {
+       console.log("error::", error); 
+      }
     }
   };
 
@@ -153,6 +179,11 @@ const RetailDashboard = () => {
 
   return (
     <Box>
+      <LoadingSnackbar
+        open={checkLoading}
+        close={() => setCheckLoading(false)}
+        text={alertText}
+      />
       <QuoteModal open={open} close={() => setOpen(false)} text={quote} />
       <Grid container justifyContent="center">
         <Grid item xs={11} md={7}>
@@ -268,9 +299,6 @@ const RetailDashboard = () => {
                   product={{
                     ...product,
                     price: Math.round(product.price * currencyRate),
-                    condition: "Brand New",
-                    location: "Dubai",
-                    status: "",
                   }}
                   checked={checked}
                   onChange={(selected) =>

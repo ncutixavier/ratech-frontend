@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import RecoverPassword from "../pages/RecoverPassword";
 import ResetPassword from "../pages/ResetPassword";
 import Retail from "../pages/Retail";
-import CheckList from "../pages/CheckList";
+import ChecklistOrder from "../pages/ChecklistOrder";
 import ProtectRoute from "./ProtectRoute";
 
 const theme = createTheme({
@@ -46,23 +46,23 @@ const theme = createTheme({
 const Index = () => {
   return (
     <ThemeProvider theme={theme}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Auth />} />
-            <Route path="/retail" element={<Retail />} />
-            <Route path="/auth" element={<Auth />}>
-              <Route path="" element={<Login />} />
-              <Route path="recover-password" element={<RecoverPassword />} />
-              <Route path="reset-password" element={<ResetPassword />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/retail" element={<Retail />} />
+          <Route path="/auth" element={<Auth />}>
+            <Route path="" element={<Login />} />
+            <Route path="recover-password" element={<RecoverPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
+          <Route element={<ProtectRoute />}>
+            <Route path="/retail" element={<RetailDashboard />}>
+              <Route path="" element={<Retail />} />
+              <Route path="checklist" element={<ChecklistOrder />} />
             </Route>
-            <Route element={<ProtectRoute />}>
-              <Route path="/retail" element={<RetailDashboard />}>
-                <Route path="" element={<Retail />} />
-                <Route path="checklist" element={<CheckList />} />
-              </Route>
-            </Route>
-          </Routes>
-        </Router>
+          </Route>
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 };

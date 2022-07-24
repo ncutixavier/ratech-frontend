@@ -10,14 +10,13 @@ const Status = styled(Box)(({ theme }) => ({
   padding: "0 1rem",
   borderRadius: "10px 0 0 0",
   fonsize: "0.5rem",
-  fontWeight: "bold",
   color: "#fff",
 }));
 
 const StatusBox = (props) => {
   return (
     <div>
-      {props.status === "Available" ? (
+      {props.status.toLowerCase() === "available" ? (
         <Status
           sx={{
             backgroundColor: `rgba(34, 153, 84)`,
@@ -25,7 +24,7 @@ const StatusBox = (props) => {
         >
           {props.status}
         </Status>
-      ) : props.status === "Out of Stock" ? (
+      ) : props.status.toLowerCase() === "out of stock" ? (
         <Status
           sx={{
             backgroundColor: `rgba(171, 0, 0)`,

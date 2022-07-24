@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../http-common";
 
-export const checklist = createAsyncThunk(
-  "product/checklist",
+export const order = createAsyncThunk(
+  "product/order",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await http.post("/product/check", data);
+      const response = await http.post("/product/order", data);
       return response;
     } catch (err) {
       if (!err.response) {
@@ -16,8 +16,8 @@ export const checklist = createAsyncThunk(
   }
 );
 
-export const checklistSlice = createSlice({
-  name: "checklist",
+export const orderSlice = createSlice({
+  name: "order",
   initialState: {
     loading: false,
     error: null,
@@ -25,17 +25,17 @@ export const checklistSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [checklist.pending]: (state, action) => {
+    [order.pending]: (state, action) => {
       state.loading = true;
       state.error = null;
       state.data = [];
     },
-    [checklist.fulfilled]: (state, action) => {
+    [order.fulfilled]: (state, action) => {
       state.loading = false;
       state.error = null;
       state.data = action.payload;
     },
-    [checklist.rejected]: (state, action) => {
+    [order.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
       state.data = [];
@@ -43,5 +43,5 @@ export const checklistSlice = createSlice({
   },
 });
 
-export const selectChecklist = (state) => state.checklist;
-export default checklistSlice.reducer;
+export const selectOrder = (state) => state.order;
+export default orderSlice.reducer;

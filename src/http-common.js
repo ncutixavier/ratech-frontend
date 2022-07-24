@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const http = axios.create({
-  // baseURL: "https://nx-leave-app.herokuapp.com/api/v1",
   baseURL: "https://rateck-backend.herokuapp.com/api/v1",
 });
 
 const requestHandler = (request) => {
-  request.headers.Authorization = localStorage.token;
+  request.headers.Authorization = `Token ${localStorage.token}`;
   return request;
 };
 
