@@ -6,6 +6,8 @@ import { searchProductReducer } from "./features/products/SearchProductSlice";
 import forgotpasswordReducer from "./features/auth/ForgotPasswordSlice";
 import resetpasswordReducer from "./features/auth/ResetPasswordSlice";
 import checklistReducer from "./features/products/ChecklistSlice";
+import { getChecklistReducer } from "./features/products/getChecklistSlice";
+import { getOrderReducer } from "./features/products/getOrderSlice";
 
 const reducer = {
   login: loginReducer,
@@ -13,6 +15,8 @@ const reducer = {
   forgotpassword: forgotpasswordReducer,
   resetpassword: resetpasswordReducer,
   checklist: checklistReducer,
+  getChecklist: getChecklistReducer,
+  getOrder: getOrderReducer,
 };
 
 const middleware = [];

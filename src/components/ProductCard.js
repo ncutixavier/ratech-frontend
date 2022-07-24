@@ -3,22 +3,35 @@ import { Checkbox, Paper, Typography, Box } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 
-const StatusText = styled(Typography)(({ theme }) => ({
-  color: "#13B555",
-  backgroundColor: `rgba(19, 181, 85, 0.09)`,
-  position: "absolute",
-  top: 0,
-  right: 0,
-  textAlign: "center",
-  padding: "0 1rem",
-  borderRadius: "0 10px 0 10px",
-  fonsize: "0.5rem",
-}));
+// const StatusText = styled(Typography)(({ theme }) => ({
+//   color: "#13B555",
+//   backgroundColor: `rgba(19, 181, 85, 0.09)`,
+//   position: "absolute",
+//   top: 0,
+//   right: 0,
+//   textAlign: "center",
+//   padding: "0 1rem",
+//   borderRadius: "0 10px 0 10px",
+//   fonsize: "0.5rem",
+// }));
 
 const ProductCard = (props) => {
   const theme = useTheme();
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "available":
+        return "#2ECC71";
+      case "not available":
+        return "#AB0000";
+      case "out of stock":
+        return "#D4AC0D";
+      default:
+        return "#34495E";
+    }
+  };
 
   return (
     <Box
@@ -41,9 +54,10 @@ const ProductCard = (props) => {
           borderRadius: "10px",
           position: "relative",
           width: "100%",
+          border: `1px solid ${getStatusColor(props.product.status)}`,
         }}
       >
-        {props.product.status ? (
+        {/* {props.product.status ? (
           props.product.status === "Available" ? (
             <StatusText>{props.product.status}</StatusText>
           ) : (
@@ -58,7 +72,7 @@ const ProductCard = (props) => {
           )
         ) : (
           ""
-        )}
+        )} */}
 
         <Typography
           sx={{
