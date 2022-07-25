@@ -21,7 +21,8 @@ import { searchSchema } from "../validations";
 import { checklist } from "../features/products/ChecklistSlice";
 import { order } from "../features/products/OrderSlice";
 import { toast } from "react-toastify";
- 
+import SearchNotFound from "../components/SearchNotFound";
+
 const RetailDashboard = () => {
   const navigate = useNavigate();
   const [products, setProducts] = React.useState([]);
@@ -92,7 +93,10 @@ const RetailDashboard = () => {
       });
       setQuote(sharedQuote);
       setOpen(true);
-    } else if (request.toLowerCase() === "place order" && selectedItems.length > 0) {
+    } else if (
+      request.toLowerCase() === "place order" &&
+      selectedItems.length > 0
+    ) {
       const user = localStorage.getItem("user");
       const data = {
         user: user,
@@ -287,27 +291,33 @@ const RetailDashboard = () => {
               ))}
             </Grid>
           </Box>
+
           {loading ? (
             <SearchSkeleton />
           ) : (
             <Box sx={{ height: "60vh", overflow: "auto" }}>
-              {allProducts.map((product, index) => (
-                <ProductCard
-                  loading={loadingRate}
-                  currency={currency}
-                  product={{
-                    ...product,
-                    price: Math.round(product.price * currencyRate),
-                  }}
-                  checked={checked}
-                  onChange={(selected) =>
-                    handleSelectProducts(selected, product)
-                  }
-                  key={index}
-                />
-              ))}
+              {allProducts.length > 0 ? (
+                allProducts.map((product, index) => (
+                  <ProductCard
+                    loading={loadingRate}
+                    currency={currency}
+                    product={{
+                      ...product,
+                      price: Math.round(product.price * currencyRate),
+                    }}
+                    checked={checked}
+                    onChange={(selected) =>
+                      handleSelectProducts(selected, product)
+                    }
+                    key={index}
+                  />
+                ))
+              ) : (
+                <SearchNotFound />
+              )}
             </Box>
           )}
+          {/* <SearchNotFound /> */}
         </Grid>
       </Grid>
     </Box>
