@@ -21,10 +21,10 @@ const RetailHeader = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => { 
+  const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/auth");
-  }
+  };
 
   return (
     <Box>
@@ -46,10 +46,11 @@ const RetailHeader = () => {
                 alt="Logo"
                 src={logoDark}
                 sx={{
-                  width: 180, height: 70,
+                  width: 180,
+                  height: 70,
                   [theme.breakpoints.down("md")]: {
                     width: 130,
-                   }
+                  },
                 }}
               />
             </Link>
@@ -93,8 +94,10 @@ const RetailHeader = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={()=>navigate("checklist")}>Checklist</MenuItem>
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={() => navigate("/retail/checklist")}>Checklist</MenuItem>
+            <MenuItem onClick={() => navigate("/profile")}>
+              Profile
+            </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>

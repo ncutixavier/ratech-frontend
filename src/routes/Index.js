@@ -11,6 +11,7 @@ import ChecklistOrder from "../pages/ChecklistOrder";
 import ProtectRoute from "./ProtectRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from "../pages/Profile";
 
 const theme = createTheme({
   palette: {
@@ -63,6 +64,7 @@ const Index = () => {
               <Route path="" element={<Retail />} />
               <Route path="checklist" element={<ChecklistOrder />} />
             </Route>
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </Router>
